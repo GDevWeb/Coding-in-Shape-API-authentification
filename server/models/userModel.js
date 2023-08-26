@@ -8,12 +8,12 @@ const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: true,
-        unique: true
+        unique: false,
     },
     lastName: {
         type: String,
         required: true,
-        unique: true,
+        unique: false,
     },
     pseudo: {
         type: String,
@@ -28,7 +28,12 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        unique: true,
+        unique: false,
+    },
+
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
 
 });
