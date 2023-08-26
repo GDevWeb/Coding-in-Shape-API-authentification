@@ -1,0 +1,36 @@
+{
+  "name": "coding-in-shape-db-authentification",
+  "version": "1.0.0",
+  "description": "coding in shape bdd authentification",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aescanor/Coding-in-Shape-BDD-authentification.git"
+  },
+  "keywords": [
+    "coding",
+    "in",
+    "shape",
+    "bdd",
+    "authentification"
+  ],
+  "author": "Malik Marina Gaëtan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aescanor/Coding-in-Shape-BDD-authentification/issues"
+  },
+  "homepage": "https://github.com/Aescanor/Coding-in-Shape-BDD-authentification#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.4.5",
+    "morgan": "^1.10.0"
+  }
+}
