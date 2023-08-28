@@ -62,6 +62,11 @@ userSchema.methods.comparePassword = async function (candidatePassword, next) {
     }
 };
 
+//04. Méthode isAdminUser contrôle si l'utilisateur est un administrateur:
+userSchema.methods.isAdminuser = function (){
+    return this.isAdmin === true;
+}
+
 
 const userModel = mongoose.model('User', userSchema);
 
