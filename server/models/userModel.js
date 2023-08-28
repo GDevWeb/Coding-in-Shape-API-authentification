@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
 
     isAdmin: {
         type: Boolean,
-        default: false
+        default: false,
     }
 
 });
@@ -53,6 +53,12 @@ userSchema.pre('save', async function (next) {
 });
 
 // Methods :
+
+//04. Méthode isAdminUser contrôle si l'utilisateur est un administrateur:
+userSchema.methods.isAdminUser = function (){
+    return this.isAdmin == true;
+}
+
 //03. Méthode de comparaison des MDP hachés :
 userSchema.methods.comparePassword = async function (candidatePassword, next) {
     try {
@@ -60,12 +66,8 @@ userSchema.methods.comparePassword = async function (candidatePassword, next) {
     } catch (error) {
         throw new Error(error);
     }
-};
-
-//04. Méthode isAdminUser contrôle si l'utilisateur est un administrateur:
-userSchema.methods.isAdminuser = function (){
-    return this.isAdmin === true;
 }
+
 
 
 const userModel = mongoose.model('User', userSchema);
