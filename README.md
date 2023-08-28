@@ -78,9 +78,9 @@ En cas de problème, l'application renverra des réponses appropriées pour vous
 
 ---
 
-**Auteur :** Malik Marina Gaëtan  
+**Auteur :** Malik Marine Gaëtan  
 **Version :** 1.0.0  
-**Dernière Mise à Jour :** [Date de la dernière mise à jour]
+**Dernière Mise à Jour :** [le 28/08/2023]
 
 ---
 
