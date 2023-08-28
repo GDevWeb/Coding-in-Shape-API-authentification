@@ -4,13 +4,14 @@ const User = require('../models/userModel');
 const authController = {
   signup: async (req, res) => {
     try {
-      const { firstName, lastName, pseudo, email, password } = req.body;
+      const { firstName, lastName, pseudo, email, password, isAdmin } = req.body;
       const newUser = new User({
         firstName,
         lastName,
         pseudo,
         email,
         password,
+        isAdmin,
       });
       await newUser.save();
       res.status(201).json({ message: 'Inscription réussie' });
