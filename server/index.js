@@ -12,9 +12,11 @@ app.use(express.json());
 // Routes
 const authRoutes = require('./routes/authRoutes');
 const exerciseRoutes = require('./routes/exerciseRoutes');
+const adminUserRoutes = require('./routes/adminUserRoutes');
 
 app.use('/api/auth', authRoutes); // Exemple de base URL pour les routes d'authentification
 app.use('/api/exercises', exerciseRoutes); // Exemple de base URL pour les routes des exercices
+app.use('/api/admin', adminUserRoutes); // Exemple de base URL pour les routes des administrateurs
 
 // Connexion à la base de données MongoDB
 mongoose

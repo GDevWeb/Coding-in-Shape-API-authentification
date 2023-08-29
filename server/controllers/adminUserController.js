@@ -1,6 +1,6 @@
 const User = require('../models/userModel');
 
-const userController = {
+const adminUserController = {
     // 01. Méthode pour créer un utilisateur :
     createUser: async (req, res) => {
         try {
@@ -79,4 +79,4 @@ const userController = {
     },
 };
 
-module.exports = userController;
+module.exports = adminUserController;
