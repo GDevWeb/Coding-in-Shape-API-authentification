@@ -1,10 +1,11 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/userModel');
+const jwt = require("jsonwebtoken");
+const User = require("../models/userModel");
 
 const authController = {
   signup: async (req, res) => {
     try {
-      const { firstName, lastName, pseudo, email, password, isAdmin } = req.body;
+      const { firstName, lastName, pseudo, email, password, isAdmin } =
+        req.body;
       const newUser = new User({
         firstName,
         lastName,
@@ -14,20 +15,24 @@ const authController = {
         isAdmin,
       });
       await newUser.save();
-      res.status(201).json({ message: 'Inscription réussie' });
+      res.status(201).json({ message: "Inscription réussie" });
     } catch (error) {
       console.log(error);
 
       if (error.code === 11000) {
         // Code 11000 indique une violation d'unicité (doublon de clé)
         if (error.keyPattern.email === 1) {
-          return res.status(400).json({ message: 'Cet email est déjà utilisé' });
+          return res
+            .status(400)
+            .json({ message: "Cet email est déjà utilisé" });
         } else if (error.keyPattern.pseudo === 1) {
-          return res.status(400).json({ message: 'Ce pseudo est déjà utilisé' });
+          return res
+            .status(400)
+            .json({ message: "Ce pseudo est déjà utilisé" });
         }
       }
-      
-      res.status(500).json({ message: 'Erreur serveur' });
+
+      res.status(500).json({ message: "Erreur serveur" });
     }
   },
 
@@ -36,20 +41,24 @@ const authController = {
       const { email, password } = req.body;
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(401).json({ message: 'Utilisateur non trouvé' });
+        return res.status(401).json({ message: "Utilisateur non trouvé" });
       }
       const isMatch = await user.comparePassword(password);
       if (!isMatch) {
-        return res.status(401).json({ message: 'Mot de passe incorrect' });
+        return res.status(401).json({ message: "Mot de passe incorrect" });
       }
 
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-        expiresIn: '24h',
-      });
+      const token = jwt.sign(
+        { userId: user._id, isAdmin: user.isAdmin }, // Ajouter isAdmin ici
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "24h",
+        }
+      );
       res.status(200).json({ token });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: 'Erreur serveur' });
+      res.status(500).json({ message: "Erreur serveur" });
     }
   },
 };
