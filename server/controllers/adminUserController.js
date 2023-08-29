@@ -37,6 +37,7 @@ const adminUserController = {
     getUserById: async (req, res) => {
         try {
             const user = await User.findById(req.params.id);
+            res.header('Content-Type', 'application/json');
             res.json(user);
         } catch (error) {
             console.log(error);
