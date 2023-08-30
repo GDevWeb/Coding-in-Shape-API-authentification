@@ -113,14 +113,17 @@ const adminUserController = {
     banUser: async (req, res) => {
         try {
             const userId = req.params.id;
-            const user = await User.findById(userId, { isBan: true });
 
-            if (!user) {
-                return res.status(404).json({ message: "Utilisateur non trouvé" });
-            }
+            const user = await User.findByIdAndUpdate(
+                userId, 
+                { isBan: true }, 
+                { new: true });
 
-            res.status(200).json({ message: "Utilisateur banni avec succès" });
-        } catch (error) {
+                if (!user) {
+                    return res.status(404).json({ message: "Utilisateur non trouvé" });
+                }
+                res.status(200).json({ message: "Utilisateur banni avec succès" });
+        }catch (error) {
             console.log(error);
             res.status(500).json({ message: "Erreur serveur - Erreur lors du bannissement de l'utilisateur" });
         }
