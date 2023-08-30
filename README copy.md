@@ -80,12 +80,14 @@ Le système prend en charge les utilisateurs administrateurs pour accéder à ce
 1. Connectez-vous en tant qu'administrateur.
 2. Utilisez les routes spécifiques pour les opérations d'administration des utilisateurs, telles que la création, la récupération, la mise à jour et la suppression d'utilisateurs.
 
-**Note :** N'oubliez pas de vous référer à la documentation du code source pour plus de détails techniques sur l'implémentation de ces fonctionnalités.
+---
+
+**Note :** Ce guide couvre les principales fonctionnalités et étapes pour utiliser le système d'authentification de l'application **Coding In Shape**. N'hésitez pas à vous référer à la documentation du code source pour plus de détails techniques.
 
 ---
 
-**Auteur :** Malik Marina Gaëtan  [Ajout de admin/user - gestion des comptes user]
-**Version :** 2.0.0  
+**Auteur :** Malik Marina Gaëtan  
+**Version :** 2.0.0  [Ajout de adminController - gestion des comptes user]
 **Dernière Mise à Jour :** [30/08/2023]
 
 ---
