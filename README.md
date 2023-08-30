@@ -84,7 +84,7 @@ Le système prend en charge les utilisateurs administrateurs pour accéder à ce
 
 ---
 
-**Auteur :** Malik Marina Gaëtan  [Ajout de admin/user - gestion des comptes user]
+**Auteur :** Malik Marina Gaëtan  [Ajout de admin/user - gestion des comptes user]  
 **Version :** 2.0.0  
 **Dernière Mise à Jour :** [30/08/2023]
 
