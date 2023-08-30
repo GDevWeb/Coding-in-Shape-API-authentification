@@ -13,7 +13,8 @@ Ce guide a été conçu pour vous aider à comprendre et à utiliser le système
   - [Exécution de l'Application](#exécution-de-lapplication)
   - [Utilisation des Routes Protégées](#utilisation-des-routes-protégées)
   - [Gestion des Erreurs](#gestion-des-erreurs)
-  - [Gestion des Utilisateurs Administrateurs](#gestion-des-utilisateurs-administrateurs)
+  - [Bannissement d'Utilisateur](#bannissement-dutilisateur)
+  - [Envoi d'E-mails](#envoi-de-mails)
 
 ---
 
@@ -36,6 +37,8 @@ Pour créer un compte utilisateur :
    - `password`: Votre mot de passe
    - `isAdmin`: Indiquez `true` si vous êtes un administrateur, sinon `false`.
 3. Vous recevrez une réponse confirmant l'inscription ou indiquant une erreur en cas de problème.
+
+Après l'inscription, un e-mail de bienvenue sera envoyé à l'adresse e-mail que vous avez fournie.
 
 ### Connexion
 
@@ -73,19 +76,25 @@ En cas de problème, l'application renverra des réponses appropriées pour vous
 - Les erreurs 403 indiquent que l'accès à la ressource est interdit en raison d'autorisations insuffisantes.
 - Les erreurs 500 signalent des problèmes au niveau du serveur.
 
-## Gestion des Utilisateurs Administrateurs
+## Bannissement d'Utilisateur
 
-Le système prend en charge les utilisateurs administrateurs pour accéder à certaines fonctionnalités spécifiques. Les routes et les contrôleurs pertinents pour la gestion des utilisateurs administrateurs sont inclus dans l'application. Pour utiliser ces fonctionnalités :
+Pour bannir un utilisateur, utilisez la route PUT `/api/users/ban/:id`.
 
 1. Connectez-vous en tant qu'administrateur.
-2. Utilisez les routes spécifiques pour les opérations d'administration des utilisateurs, telles que la création, la récupération, la mise à jour et la suppression d'utilisateurs.
+2. Envoyez une requête PUT à l'URL correspondante avec l'ID de l'utilisateur que vous souhaitez bannir.
 
-**Note :** N'oubliez pas de vous référer à la documentation du code source pour plus de détails techniques sur l'implémentation de ces fonctionnalités.
+## Envoi d'E-mails
+
+Après l'inscription, un e-mail de bienvenue sera envoyé à l'adresse e-mail que vous avez fournie. L'envoi d'e-mails est géré par le service Mailtrap dans l'environnement de développement. Assurez-vous de configurer les variables d'environnement appropriées pour le service d'envoi d'e-mails en production.
 
 ---
 
-**Auteur :** Malik Marina Gaëtan   
-**Version :** 2.0.0 [Ajout de admin/user - gestion des comptes user]  
+**Note :** Ce guide couvre les principales fonctionnalités et étapes pour utiliser le système d'authentification de l'application **Coding In Shape**. N'hésitez pas à vous référer à la documentation du code source pour plus de détails techniques.
+
+---
+
+**Auteur :** Gaëtan Marine  
+**Version :** 2.1.0  [Ajout de banUser et ajout de mailing signup]  
 **Dernière Mise à Jour :** [30/08/2023]
 
 ---
