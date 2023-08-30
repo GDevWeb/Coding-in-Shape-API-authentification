@@ -14,6 +14,7 @@ const authController = {
         password,
         isAdmin,
       });
+
       await newUser.save();
       res.status(201).json({ message: "Inscription réussie" });
     } catch (error) {
@@ -43,13 +44,20 @@ const authController = {
       if (!user) {
         return res.status(401).json({ message: "Utilisateur non trouvé" });
       }
+
+      // Je place la condition isBan ici, question optimisation du code :
+      if (user.isBan) {
+        return res.status(401).json({ message: "Vous êtes banni" });
+      }
+
       const isMatch = await user.comparePassword(password);
       if (!isMatch) {
         return res.status(401).json({ message: "Mot de passe incorrect" });
       }
 
+
       const token = jwt.sign(
-        { userId: user._id, isAdmin: user.isAdmin }, // Ajouter isAdmin ici
+        { userId: user._id, isAdmin: user.isAdmin }, 
         process.env.JWT_SECRET,
         {
           expiresIn: "24h",

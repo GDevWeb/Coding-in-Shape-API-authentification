@@ -11,6 +11,7 @@ const adminUserController = {
                 email: req.body.email,
                 password: req.body.password,
                 isAdmin: req.body.isAdmin,
+                isBan: req.body.isBan,
             });
 
             const savedUser = await user.save();
@@ -49,21 +50,32 @@ const adminUserController = {
     // 04. Méthode pour mettre à jour un utilisateur :
     updateUser: async (req, res) => {
         try {
-            const user = await User.findById(req.params.id);
+            const userID = req.params.id;
+            const { firstName, lastName, pseudo, email, password, isAdmin, isBan } = req.body;
+            const updatedUser = await User.findByIdAndUpdate
+                (
+                    userID,
+                    {
+                        firstName,
+                        lastName,
+                        pseudo,
+                        email,
+                        password,
+                        isAdmin,
+                        isBan
+                    },
+                    { new: true }
+                );
 
-            user.firstName = req.body.firstName;
-            user.lastName = req.body.lastName;
-            user.pseudo = req.body.pseudo;
-            user.email = req.body.email;
-            user.password = req.body.password;
-            user.isAdmin = req.body.isAdmin;
+            if (!updatedUser) {
+                return res.status(404).json({ message: "Utilisateur non trouvé" });
+            }
 
-            const savedUser = await user.save();
-            res.json(savedUser, { message: "Utilisateur mis à jour avec succès" });
+            res.status(200).json(updatedUser, { message: "Utilisateur mis à jour avec succès" });
 
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: "Erreur lors de la mise à jour de l'utilisateur" });
+            res.status(500).json({ message: "Erreur serveur - Erreur lors de la mise à jour de l'utilisateur" });
         }
     },
 
