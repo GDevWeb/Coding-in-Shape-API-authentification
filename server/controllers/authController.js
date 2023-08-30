@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const sendWelcomeEmail = require("../utils/emailSender");
 
 const authController = {
   signup: async (req, res) => {
@@ -16,6 +17,10 @@ const authController = {
       });
 
       await newUser.save();
+
+      // Envoi de l'email de bienvenue : 
+      sendWelcomeEmail(email, pseudo, password);
+
       res.status(201).json({ message: "Inscription réussie" });
     } catch (error) {
       console.log(error);
