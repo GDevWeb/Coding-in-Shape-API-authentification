@@ -12,10 +12,10 @@ const adminUserController = {
                 password: req.body.password,
                 isAdmin: req.body.isAdmin,
             });
-    
+
             const savedUser = await user.save();
             res.json(savedUser, { message: "Utilisateur créé avec succès" });
-    
+
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Erreur lors de la création de l'utilisateur" });
@@ -76,6 +76,23 @@ const adminUserController = {
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Erreur lors de la suppression de l'utilisateur" });
+        }
+    },
+
+    // 06. Méthode pour bannir un utilisateur : 
+    banUser: async (req, res) => {
+        try {
+            const userId = req.params.id;
+            const user = await User.findById(userId, { isBan: true });
+
+            if (!user) {
+                return res.status(404).json({ message: "Utilisateur non trouvé" });
+            }
+
+            res.status(200).json({ message: "Utilisateur banni avec succès" });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Erreur serveur - Erreur lors du bannissement de l'utilisateur" });
         }
     },
 };

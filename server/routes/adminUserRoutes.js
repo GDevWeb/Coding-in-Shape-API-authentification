@@ -15,5 +15,7 @@ router.get('/users/:id', authMiddleWare, adminUserController.getUserById);
 router.put('/users/:id', authMiddleWare, adminUserController.updateUser);
 // 05. Méthode pour supprimer un utilisateur :
 router.delete('/users/:id', authMiddleWare, adminUserController.deleteUser);
+// 06. Méthode pour bannir un utilisateur :
+router.put('/users/ban/:id', authMiddleWare, adminUserController.banUser);
 
 module.exports = router;
