@@ -4,22 +4,32 @@ const adminUserController = {
     // 01. Méthode pour créer un utilisateur :
     createUser: async (req, res) => {
         try {
-            const user = new User({
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                pseudo: req.body.pseudo,
-                email: req.body.email,
-                password: req.body.password,
-                isAdmin: req.body.isAdmin,
-                isBan: req.body.isBan,
+            const { firstName, lastName, pseudo, email, password, isAdmin, isBan } = req.body;
+            const newUser = new User({
+
+                firstName,
+                lastName,
+                pseudo,
+                email,
+                password,
+                isAdmin,
+                isBan
             });
-
-            const savedUser = await user.save();
-            res.json(savedUser, { message: "Utilisateur créé avec succès" });
-
+            await newUser.save();
+            res.status(201).json({ user: newUser, message: "Utilisateur créé avec succès" });
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: "Erreur lors de la création de l'utilisateur" });
+
+            if (error.code === 11000) {
+                if (error.keyPattern.email) {
+                    return res.status(400).json({ message: "Cet email est déjà utilisé" });
+                }
+                else if (error.keyPattern.pseudo) {
+                    return res.status(400).json({ message: "Ce pseudo est déjà utilisé" });
+                }
+            }
+
+            res.status(500).json({ message: "Erreur serveur - Erreur lors de la création de l'utilisateur" });
         }
     },
 
@@ -64,14 +74,15 @@ const adminUserController = {
                         isAdmin,
                         isBan
                     },
-                    { new: true }
+                    { new: true },
+
                 );
 
             if (!updatedUser) {
                 return res.status(404).json({ message: "Utilisateur non trouvé" });
             }
 
-            res.status(200).json(updatedUser, { message: "Utilisateur mis à jour avec succès" });
+            res.status(201).json({ message: "Utilisateur mis à jour avec succès" });
 
         } catch (error) {
             console.log(error);
@@ -81,14 +92,21 @@ const adminUserController = {
 
     // 05. Méthode pour supprimer un utilisateur :
     deleteUser: async (req, res) => {
+
         try {
-            const user = await User.findById(req.params.id);
-            await user.remove();
-            res.json({ message: "Utilisateur supprimé avec succès" });
+            const userId = req.params.id;
+            const deletedUser = await User.findByIdAndDelete(userId);
+
+            if (!deletedUser) {
+                return res.status(404).json({ message: "Utilisateur non trouvé" });
+            }
+
+            res.status(200).json({ message: "Utilisateur supprimé avec succès" });
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: "Erreur lors de la suppression de l'utilisateur" });
+            res.status(500).json({ message: "Erreur serveur - Erreur lors de la suppression de l'utilisateur" });
         }
+
     },
 
     // 06. Méthode pour bannir un utilisateur : 
