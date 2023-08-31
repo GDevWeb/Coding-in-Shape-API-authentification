@@ -68,7 +68,7 @@ const authController = {
           expiresIn: "24h",
         }
       );
-      res.cookie('token'), token, { httpOnly: true, maxAge: 24 * 3600 * 1000 }; //soit 24h
+      res.cookie('token', token, { httpOnly: true, maxAge: 24 * 3600 * 1000 }); //soit 24h
 
       res.status(200).json({ token });
 
@@ -76,6 +76,33 @@ const authController = {
       console.log(error);
       res.status(500).json({ message: "Erreur serveur" });
     }
+  },
+
+  // Route pour vérfier l'authentification : 
+  checkAuth: async (req, res) => { 
+
+    try {
+      const token = req.cookies.token;
+      if (!token) {
+        return res.status(401).json({ message: "Vous n'êtes pas authentifié" });
+      }
+
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      if (!decodedToken) {
+        return res.status(401).json({ message: "Vous n'êtes pas authentifié" });
+      }
+
+      const user = await User.findById(decodedToken.userId);
+      if (!user) {
+        return res.status(401).json({ message: "Vous n'êtes pas authentifié" });
+      }
+
+      res.status(200).json({ user });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Erreur serveur" });
+    }
+    
   },
 };
 
