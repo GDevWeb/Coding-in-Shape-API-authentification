@@ -1,13 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 
 dotenv.config();
 
 const app = express();
 
-// Middleware
+// Middlewares
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
