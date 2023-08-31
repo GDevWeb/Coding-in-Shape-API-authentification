@@ -8,7 +8,5 @@ router.post('/signup', authController.signup);
 // 02. Route pour se connecter :
 router.post('/login', authController.login);
 
-// 03. Route pour vérifier l'authentification :
-router.get('/check-auth', authController.checkAuth);
 
 module.exports = router;

@@ -11,6 +11,12 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  // Other CORS headers like methods, headers, etc. can be set here as well
+  next();
+});
+
 // Routes
 const authRoutes = require('./routes/authRoutes');
 const exerciseRoutes = require('./routes/exerciseRoutes');
@@ -30,7 +36,7 @@ mongoose
     console.log('Connexion à la base de données Coding In Shape - authentification établie');
     // Démarrage du serveur après la connexion à la base de données
     app.listen(process.env.PORT || 4000, () => {
-      console.log(`Serveur d'authentification en cours d'éxécution sur le port ${process.env.PORT}`);
+      console.log(`Serveur d'authentification en cours d’exécution sur le port ${process.env.PORT}`);
     });
   })
   .catch((error) => {
