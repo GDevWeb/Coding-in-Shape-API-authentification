@@ -68,7 +68,10 @@ const authController = {
           expiresIn: "24h",
         }
       );
-      res.status(200).json({ token });
+        // Ajout du cookie "aux pépites de chocolat" :
+      res.cookie("token", token, { httpOnly: true, maxAge: 24 * 3600 * 1000 }); // 24h
+
+      res.status(200).json({ token, message: "Connexion réussie" });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Erreur serveur" });
