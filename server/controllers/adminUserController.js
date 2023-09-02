@@ -4,14 +4,17 @@ const adminUserController = {
     // 01. Méthode pour créer un utilisateur :
     createUser: async (req, res) => {
         try {
-            const { firstName, lastName, pseudo, email, password, isAdmin, isBan } = req.body;
+            const { firstName, lastName, age, pseudo, email, password, securityQuestions, securityAnswer, isAdmin, isBan } = req.body;
             const newUser = new User({
 
                 firstName,
                 lastName,
+                age,
                 pseudo,
                 email,
                 password,
+                securityQuestions,
+                securityAnswer,
                 isAdmin,
                 isBan
             });
@@ -61,16 +64,19 @@ const adminUserController = {
     updateUser: async (req, res) => {
         try {
             const userID = req.params.id;
-            const { firstName, lastName, pseudo, email, password, isAdmin, isBan } = req.body;
+            const { firstName, lastName, age, pseudo, email, password, securityQuestions, isAdmin, isBan } = req.body;
             const updatedUser = await User.findByIdAndUpdate
                 (
                     userID,
                     {
                         firstName,
                         lastName,
+                        age,
                         pseudo,
                         email,
                         password,
+                        securityQuestions,
+                        securityAnswer,
                         isAdmin,
                         isBan
                     },
@@ -128,6 +134,26 @@ const adminUserController = {
             res.status(500).json({ message: "Erreur serveur - Erreur lors du bannissement de l'utilisateur" });
         }
     },
+
+    // // 07. Méthode pour débannir un utilisateur : 
+    unBanUSer : async (req, res) => {
+        try{
+            const userID = req.params.id;
+
+            const user = await User.findByIdAndUpdate(
+                userID,
+                {isBan: false},
+                {new: true});
+
+                if(!user) {
+                    return res.status(404).json({message: "Utilisateur non trouvé"});
+                }
+                res.status(200).json({message: "Utilisateur débanni avec succès"});
+        }catch (error) {
+            console.log(error);
+            res.status(500).json({message: "Erreur serveur - Erreur lors du débannissement de l'utilisateur"});
+        }
+    }
 };
 
 module.exports = adminUserController;

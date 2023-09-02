@@ -5,14 +5,17 @@ const sendWelcomeEmail = require("../utils/emailSender");
 const authController = {
   signup: async (req, res) => {
     try {
-      const { firstName, lastName, pseudo, email, password, isAdmin } =
+      const { firstName, lastName, age, pseudo, email, password, securityQuestion, securityAnswer, isAdmin} =
         req.body;
       const newUser = new User({
         firstName,
         lastName,
+        age,
         pseudo,
         email,
         password,
+        securityQuestion,
+        securityAnswer,
         isAdmin,
       });
 

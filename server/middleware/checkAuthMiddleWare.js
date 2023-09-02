@@ -1,4 +1,4 @@
-const jwt = require
+const jwt = require('jsonwebtoken')
 
 const checkAuth = (req, res, next) => {
 
@@ -10,11 +10,14 @@ const checkAuth = (req, res, next) => {
         if(!token) {
             return res.status(401).json({ message: "Vous devez vous connecter pour accéder à cette ressource" });
         }
+        else {
+            console.log(token, "vous êtes authentifié");
+        }
 
         // Décodage du token :
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-        //Ajouter les données du token décodé à la requête :
+        //Ajouter les données du token décodé à la requête :        
         req.userData = decodedToken;
         next();
     }catch (error) {
