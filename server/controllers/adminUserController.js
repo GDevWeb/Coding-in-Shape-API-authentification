@@ -136,24 +136,24 @@ const adminUserController = {
     },
 
     // // 07. Méthode pour débannir un utilisateur : 
-    unBanUSer : async (req, res) => {
-        try{
-            const userID = req.params.id;
+    // unBanUSer : async (req, res) => {
+    //     try{
+    //         const userID = req.params.id;
 
-            const user = await User.findByIdAndUpdate(
-                userID,
-                {isBan: false},
-                {new: true});
+    //         const user = await User.findByIdAndUpdate(
+    //             userID,
+    //             {isBan: false},
+    //             {new: true});
 
-                if(!user) {
-                    return res.status(404).json({message: "Utilisateur non trouvé"});
-                }
-                res.status(200).json({message: "Utilisateur débanni avec succès"});
-        }catch (error) {
-            console.log(error);
-            res.status(500).json({message: "Erreur serveur - Erreur lors du débannissement de l'utilisateur"});
-        }
-    }
+    //             if(!user) {
+    //                 return res.status(404).json({message: "Utilisateur non trouvé"});
+    //             }
+    //             res.status(200).json({message: "Utilisateur débanni avec succès"});
+    //     }catch (error) {
+    //         console.log(error);
+    //         res.status(500).json({message: "Erreur serveur - Erreur lors du débannissement de l'utilisateur"});
+    //     }
+    // }
 };
 
 module.exports = adminUserController;
