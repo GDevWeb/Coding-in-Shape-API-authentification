@@ -18,5 +18,7 @@ router.put('/users/:id', checkAuth, adminUserController.updateUser);
 router.delete('/users/:id', checkAuth, adminUserController.deleteUser);
 // 06. Méthode pour bannir un utilisateur :
 router.put('/users/ban/:id', checkAuth, adminUserController.banUser);
+// 07. Méthode pour débannir un utilisateur : 
+// router.put('/users/unban/:id', checkAuth, adminUserController.unbanUser);
 
 module.exports = router;

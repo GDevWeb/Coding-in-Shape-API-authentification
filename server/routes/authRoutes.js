@@ -13,7 +13,7 @@ router.post('/login', authController.login);
 // router.get('/logout', authController.logout); 
 
 // 04. Récupération du mot de passe : 
-// router.post('/resetPassword', authController.resetPassword);
+router.post('/resetPassword', authController.resetPasswordSimplified);
 
 // Route pour vérifier l'authentification : 
 router.get('/checkAuth', checkAuth, authController.checkAuth);
