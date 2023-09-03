@@ -142,9 +142,9 @@ const authController = {
       await user.save();
 
       // 06. Envoi de l'email de réinitialisation du mot de passe :
-      const sendResetPasswordEmail = "Mot de passe réinitialisé avec succès ! Copiez et collez ce nouveau de passe dans le champ mot de passe de la page de connexion : " + temporaryPassword;
+      const sendResetPassword = temporaryPassword;
   
-      res.status(200).json({ message: "Mot de passe réinitialisé avec succès", sendResetPasswordEmail });
+      res.status(200).json({ message: "Mot de passe réinitialisé avec succès", sendResetPassword });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Erreur serveur" });
