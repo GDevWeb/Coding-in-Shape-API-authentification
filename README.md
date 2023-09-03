@@ -1,100 +1,118 @@
-# Guide d'utilisation du système d'authentification
+Voici un fichier `readme.md` basé sur les informations que vous avez fournies :
 
-Ce guide a été conçu pour vous aider à comprendre et à utiliser le système d'authentification de l'application **Coding In Shape**. Vous trouverez ci-dessous des instructions détaillées pour les principales fonctionnalités.
+```markdown
+# Projet Coding in Shape API - Authentification
+
+## Version: 2.5.0
+## Auteurs: Marine, Gaëtan
+
+Ce projet est une API d'authentification pour l'application Coding in Shape. Il permet la gestion des utilisateurs, des exercices, et des administrateurs.
 
 ## Sommaire
 
-- [Guide d'utilisation du système d'authentification](#guide-dutilisation-du-système-dauthentification)
-  - [Sommaire](#sommaire)
-  - [Introduction](#introduction)
-  - [Inscription et Connexion](#inscription-et-connexion)
-    - [Inscription](#inscription)
-    - [Connexion](#connexion)
-  - [Exécution de l'Application](#exécution-de-lapplication)
-  - [Utilisation des Routes Protégées](#utilisation-des-routes-protégées)
-  - [Gestion des Erreurs](#gestion-des-erreurs)
-  - [Bannissement d'Utilisateur](#bannissement-dutilisateur)
-  - [Envoi d'E-mails](#envoi-de-mails)
-
----
+1. [Introduction](#introduction)
+2. [Installation](#installation)
+3. [Utilisation](#utilisation)
+   - [Authentification](#authentification)
+   - [Utilisateurs](#utilisateurs)
+   - [Exercices](#exercices)
+   - [Middleware d'Authentification](#middleware-dauthentification)
+4. [Contributions](#contributions)
+5. [Contact](#contact)
+6. [Licence](#licence)
 
 ## Introduction
 
-Le système d'authentification est une partie essentielle de l'application **Coding In Shape**. Il permet de sécuriser l'accès aux différentes fonctionnalités en s'assurant que seuls les utilisateurs authentifiés et autorisés peuvent y accéder.
+Cette API d'authentification est conçue pour être utilisée avec l'application Coding in Shape. Elle permet aux utilisateurs de s'inscrire, de se connecter, de réinitialiser leur mot de passe, et offre des fonctionnalités d'administration pour gérer les utilisateurs et les exercices.
 
-## Inscription et Connexion
+## Installation
 
-### Inscription
+1. Clonez le projet depuis le dépôt GitHub :
+   ```shell
+   git clone https://github.com/Aescanor/Coding-in-Shape-BDD-authentification.git
+   ```
 
-Pour créer un compte utilisateur :
+2. Installez les dépendances :
+   ```shell
+   cd Coding-in-Shape-BDD-authentification
+   npm install
+   ```
 
-1. Utilisez la route POST `/api/auth/signup`.
-2. Envoyez une requête JSON avec les informations suivantes :
-   - `firstName`: Votre prénom
-   - `lastName`: Votre nom de famille
-   - `pseudo`: Votre pseudo
-   - `email`: Votre adresse e-mail
-   - `password`: Votre mot de passe
-   - `isAdmin`: Indiquez `true` si vous êtes un administrateur, sinon `false`.
-3. Vous recevrez une réponse confirmant l'inscription ou indiquant une erreur en cas de problème.
+3. Configurez les variables d'environnement en créant un fichier `.env` à la racine du projet. Exemple de contenu du fichier `.env` :
+   ```env
+   DB_URI=URL_DE_VOTRE_BASE_DE_DONNÉES_MONGODB
+   JWT_SECRET=VOTRE_CLÉ_SECRÈTE_JWT
+   SMTP_HOST=SERVEUR_SMTP
+   SMTP_PORT=PORT_SMTP
+   SMTP_USER=VOTRE_ADRESSE_EMAIL
+   SMTP_PASS=VOTRE_MOT_DE_PASSE_EMAIL
+   PORT=4000
+   ```
 
-Après l'inscription, un e-mail de bienvenue sera envoyé à l'adresse e-mail que vous avez fournie.
+4. Démarrez le serveur :
+   ```shell
+   cd /server
+   npm run nodemon
+   ```
 
-### Connexion
+L'API sera accessible à l'adresse `http://localhost:4000`.
 
-Pour vous connecter à votre compte utilisateur :
+## Utilisation
 
-1. Utilisez la route POST `/api/auth/login`.
-2. Envoyez une requête JSON avec les informations suivantes :
-   - `email`: Votre adresse e-mail
-   - `password`: Votre mot de passe
-3. Si les informations sont correctes, vous recevrez un token JWT que vous devrez inclure dans les en-têtes de vos futures requêtes.
+### Authentification
 
-## Exécution de l'Application
+- **Inscription :** Envoyez une requête POST à `/api/auth/signup` avec les données d'inscription (nom, prénom, email, mot de passe, etc.).
 
-1. Assurez-vous d'avoir [Node.js](https://nodejs.org/) installé sur votre machine.
-2. Clonez le dépôt depuis [GitHub](https://github.com/Aescanor/Coding-in-Shape-BDD-authentification).
-3. Ouvrez le terminal et accédez au répertoire du projet.
-4. Exécutez la commande `npm install` pour installer les dépendances.
-5. Créez un fichier `.env` à la racine du projet et ajoutez vos variables d'environnement (voir `.env.example` pour le format).
-6. Exécutez l'application en utilisant `npm start`.
-7. L'application sera accessible à l'adresse `http://localhost:4000`.
+- **Connexion :** Envoyez une requête POST à `/api/auth/login` avec les informations d'identification (email et mot de passe) pour obtenir un token d'authentification.
 
-## Utilisation des Routes Protégées
+- **Réinitialisation du mot de passe :** Envoyez une requête POST à `/api/auth/resetPassword` avec l'email, la question de sécurité et la réponse de sécurité pour réinitialiser le mot de passe.
 
-Certaines routes nécessitent une authentification préalable pour y accéder. Les routes protégées sont marquées par l'utilisation du middleware d'authentification. Suivez ces étapes pour les utiliser :
+- **Vérification de l'authentification :** Utilisez le middleware `checkAuth` pour protéger certaines routes et vérifier l'authentification.
 
-1. Connectez-vous à l'aide de la route `/api/auth/login` et obtenez un token JWT.
-2. Incluez le token JWT dans l'en-tête `Authorization` de vos requêtes. Le token doit être précédé de la chaîne "Bearer " (par exemple : `Bearer votre_token_jwt`).
+### Utilisateurs
 
-## Gestion des Erreurs
+- **Création d'un utilisateur :** Envoyez une requête POST à `/api/admin/users` pour créer un nouvel utilisateur (nécessite d'être administrateur).
 
-En cas de problème, l'application renverra des réponses appropriées pour vous aider à identifier les erreurs :
+- **Récupération de tous les utilisateurs :** Envoyez une requête GET à `/api/admin/users` pour obtenir la liste de tous les utilisateurs (nécessite d'être administrateur).
 
-- Les erreurs 400 indiquent des problèmes de requête utilisateur (données manquantes, format incorrect, etc.).
-- Les erreurs 401 signifient que l'accès n'est pas autorisé en raison d'informations d'identification incorrectes ou manquantes.
-- Les erreurs 403 indiquent que l'accès à la ressource est interdit en raison d'autorisations insuffisantes.
-- Les erreurs 500 signalent des problèmes au niveau du serveur.
+- **Récupération d'un utilisateur par ID :** Envoyez une requête GET à `/api/admin/users/:id` pour obtenir les informations d'un utilisateur par son ID (nécessite d'être administrateur).
 
-## Bannissement d'Utilisateur
+- **Mise à jour d'un utilisateur :** Envoyez une requête PUT à `/api/admin/users/:id` pour mettre à jour les informations d'un utilisateur (nécessite d'être administrateur).
 
-Pour bannir un utilisateur, utilisez la route PUT `/api/users/ban/:id`.
+- **Suppression d'un utilisateur :** Envoyez une requête DELETE à `/api/admin/users/:id` pour supprimer un utilisateur (nécessite d'être administrateur).
 
-1. Connectez-vous en tant qu'administrateur.
-2. Envoyez une requête PUT à l'URL correspondante avec l'ID de l'utilisateur que vous souhaitez bannir.
+- **Bannissement d'un utilisateur :** Envoyez une requête PUT à `/api/admin/users/ban/:id` pour bannir un utilisateur (nécessite d'être administrateur).
 
-## Envoi d'E-mails
+### Exercices
 
-Après l'inscription, un e-mail de bienvenue sera envoyé à l'adresse e-mail que vous avez fournie. L'envoi d'e-mails est géré par le service Mailtrap dans l'environnement de développement. Assurez-vous de configurer les variables d'environnement appropriées pour le service d'envoi d'e-mails en production.
+- **Création d'un exercice :** Envoyez une requête POST à `/api/exercises` pour créer un nouvel exercice.
 
----
+- **Récupération de tous les exercices :** Envoyez une requête GET à `/api/exercises` pour obtenir la liste de tous les exercices.
 
-**Note :** Ce guide couvre les principales fonctionnalités et étapes pour utiliser le système d'authentification de l'application **Coding In Shape**. N'hésitez pas à vous référer à la documentation du code source pour plus de détails techniques.
+- **Récupération d'un exercice par ID :** Envoyez une requête GET à `/api/exercises/:id` pour obtenir les informations d'un exercice par son ID.
 
----
+- **Mise à jour d'un exercice :** Envoyez une requête PUT à `/api/exercises/:id` pour mettre à jour les informations d'un exercice.
 
-**Auteur :** Gaëtan Marine  
-**Version :** 2.1.0  [Ajout de banUser et ajout de mailing signup]  
-**Dernière Mise à Jour :** [30/08/2023]
+- **Suppression d'un exercice :** Envoyez une requête DELETE à `/api/exercises/:id` pour supprimer un exercice.
 
----
+### Middleware d'Authentification
+
+Le middleware `checkAuth` est utilisé pour protéger certaines routes et s'assurer que l'utilisateur est authentifié avant d'accéder à ces ressources.
+
+## Contributions
+
+- Les contributions à ce projet sont les bienvenues. Vous pouvez ouvrir des issues ou soumettre des pull requests pour améliorer l'API.
+
+## Contact
+
+Pour toute question ou demande d'assistance, vous pouvez contacter les auteurs du projet :
+- Marine : [marine@example.com](mailto:marine@example.com)
+- Gaëtan : [gaetan@example.com](mailto:gaetan.dammaretz.dev@gmail.com)
+
+## Licence
+
+Ce projet est sous licence [ISC](LICENSE).
+
+```
+
+N'hésitez pas à personnaliser ce fichier `readme.md` en ajoutant plus de détails ou d'exemples si nécessaire.
