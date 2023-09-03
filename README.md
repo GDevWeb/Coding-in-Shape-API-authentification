@@ -115,4 +115,3 @@ Ce projet est sous licence [ISC](LICENSE).
 
 ```
 
-N'hésitez pas à personnaliser ce fichier `readme.md` en ajoutant plus de détails ou d'exemples si nécessaire.
