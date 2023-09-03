@@ -4,6 +4,7 @@
   "description": "coding in shape bdd authentification",
   "main": "index.js",
   "scripts": {
+    "nodemon" : "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,11 +27,13 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.5",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.4"
   }
 }

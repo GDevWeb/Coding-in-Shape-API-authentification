@@ -7,6 +7,8 @@ const exerciseController = require('../controllers/exerciseController');
 // Routes d'authentification :
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
+// router.get('/logout', authController.logout);
+router.post('/resetPassword', authController.resetPasswordSimplified);
 
 <<<<<<< HEAD
 // Utilisation du middleware pour protéger les routes suivantes
