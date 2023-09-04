@@ -18,4 +18,6 @@ router.post('/resetPassword', authController.resetPasswordSimplified);
 // Route pour vérifier l'authentification : 
 router.get('/checkAuth', checkAuth, authController.checkAuth);
 
+// MyAccount :
+router.get('/myProfile', checkAuth, authController.getMyProfile);
 module.exports = router;

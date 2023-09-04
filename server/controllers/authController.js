@@ -73,7 +73,7 @@ const authController = {
           expiresIn: "24h",
         }
       );
-      res.cookie('token', token, { httpOnly: true, maxAge: 24 * 3600 * 1000 }); //soit 24h
+      res.cookie('token', token, { httpOnly: true, maxAge: 24 * 3600 * 1000, path: '/' }); //soit 24h
 
       res.status(200).json({ token });
 
@@ -150,6 +150,27 @@ const authController = {
       res.status(500).json({ message: "Erreur serveur" });
     }
   },  
+
+// MyAccount : 
+getMyProfile : async (req, res) => {
+  try {
+    const userId = req.userData.userId; 
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(401).json({ message: "Utilisateur non trouvé" });
+    }
+
+    res.status(200).json({ user });
+    return user;
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+},
+
+  
 };
 
 module.exports = authController;
