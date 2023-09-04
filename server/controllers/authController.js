@@ -160,7 +160,7 @@ const authController = {
 
       const user = await User.findById(userId);
 
-      const responseData = {
+      const userData = {
         firstName: user.firstName,
         lastName: user.lastName,
         age: user.age,
@@ -175,7 +175,7 @@ const authController = {
 
       }
       console.log(user)
-      res.status(200).json({ responseData });
+      res.status(200).json({ userData });
       return user;
     } catch (error) {
       console.log(error);
