@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
 const User = require("../models/userModel");
 const sendWelcomeEmail = require("../utils/emailSender");
 const { token } = require("morgan");
@@ -183,48 +184,52 @@ const authController = {
     }
   },
 
-  // Modifier son profil : updatePassword
-  updatePassword: async (req, res) => {
-    try {
-      const { oldPassword, newPassword, confirmNewPassword } = req.body;
+// Modifier son profil : updatePassword
+updatePassword: async (req, res) => {
+  try {
+    const { oldPassword, newPassword, confirmNewPassword } = req.body;
 
-      // Assurez-vous que l'utilisateur est authentifié (vérifiez le jeton)
-      const token = req.cookies.token;
-      if (!token) {
-        return res.status(401).json({ message: "Vous n'êtes pas authentifié" });
-      }
-
-      // Récupérez l'utilisateur depuis la base de données en utilisant l'ID stocké dans le jeton
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-      if (!decodedToken) {
-        return res.status(401).json({ message: "Vous n'êtes pas authentifié" });
-      }
-
-      const user = await User.findById(decodedToken.userId);
-      if (!user) {
-        return res.status(401).json({ message: "Utilisateur non trouvé" });
-      }
-
-      // Vérifiez que l'ancien mot de passe correspond au mot de passe actuel de l'utilisateur
-      const isMatch = await user.comparePassword(oldPassword);
-      if (!isMatch) {
-        return res.status(401).json({ message: 'L\'ancien mot de passe est incorrect' });
-      }
-
-      // Vérifiez que le nouveau mot de passe et la confirmation correspondent
-      if (newPassword !== confirmNewPassword) {
-        return res.status(400).json({ message: 'Les nouveaux mots de passe ne correspondent pas' });
-      }
-
-      // Mettez à jour le mot de passe de l'utilisateur dans la base de données en utilisant updateOne
-      await User.updateOne({ _id: user._id }, { $set: { password: newPassword } });
-
-      res.status(200).json({ message: 'Mot de passe mis à jour avec succès' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Erreur serveur' });
+    // Authentification de l'utilisateur ? :
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ message: "Vous n'êtes pas authentifié" });
     }
-  },
+
+    // Récupération de l'ID stocké dans le jeton
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decodedToken) {
+      return res.status(401).json({ message: "Vous n'êtes pas authentifié" });
+    }
+
+    const user = await User.findById(decodedToken.userId);
+    if (!user) {
+      return res.status(401).json({ message: "Utilisateur non trouvé" });
+    }
+
+    // Vérifiez que l'ancien mot de passe correspond au mot de passe actuel de l'utilisateur
+    const isMatch = await user.comparePassword(oldPassword);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'L\'ancien mot de passe est incorrect' });
+    }
+
+    // Vérifiez que le nouveau mot de passe et la confirmation correspondent
+    if (newPassword !== confirmNewPassword) {
+      return res.status(400).json({ message: 'Les nouveaux mots de passe ne correspondent pas' });
+    }
+
+    // Hash du nouveau mot de passe
+    const salt = await bcrypt.genSalt(12);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    //Mise à jour du MDP hashed dans la base de données :
+    await User.updateOne({ _id: user._id }, { $set: { password: hashedPassword } });
+
+    res.status(200).json({ message: 'Mot de passe mis à jour avec succès' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+},
 
 
 };

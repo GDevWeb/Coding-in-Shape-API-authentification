@@ -23,4 +23,4 @@ router.get('/myProfile', checkAuth, authController.getMyProfile);
 module.exports = router;
 
 //06. Route pour mettre à jour le mot de passe :
-// router.post('/updatePassword', checkAuth, authController.updatePassword);
+router.post('/updatePassword', checkAuth, authController.updatePassword);
