@@ -1,12 +1,13 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 const sendWelcomeEmail = require("../utils/emailSender");
+const { token } = require("morgan");
 
 const authController = {
   // 01. Méthode pour s'inscrire:
   signup: async (req, res) => {
     try {
-      const { firstName, lastName, age, pseudo, email, password, securityQuestion, securityAnswer, isAdmin} =
+      const { firstName, lastName, age, pseudo, email, password, securityQuestion, securityAnswer, isAdmin } =
         req.body;
       const newUser = new User({
         firstName,
@@ -84,7 +85,7 @@ const authController = {
   },
 
   //03. Route pour vérifier l'authentification : 
-  checkAuth: async (req, res) => { 
+  checkAuth: async (req, res) => {
 
     try {
       const token = req.cookies.token;
@@ -107,21 +108,21 @@ const authController = {
       console.log(error);
       res.status(500).json({ message: "Erreur serveur" });
     }
-    
+
   },
-  
+
   // 04. Méthode pour réinitialiser le mot de passe :
   resetPasswordSimplified: async (req, res) => {
     const { email, securityQuestion, securityAnswer } = req.body;
-  
+
     try {
       // 01. Rechercher l'utilisateur dans la base de données par son email
       const user = await User.findOne({ email });
-  
+
       if (!user) {
         return res.status(401).json({ message: "Utilisateur non trouvé" });
       }
-  
+
       // 02. Vérification de la question de sécurité et de la réponse de sécurité :
       if (
         user.securityQuestion !== securityQuestion ||
@@ -131,46 +132,101 @@ const authController = {
           .status(401)
           .json({ message: "Question de sécurité ou réponse de sécurité incorrecte" });
       }
-  
+
       // 03. Génération d'un nouveau mot de passe :
       const temporaryPassword = Math.random().toString(36).slice(-8);
-  
+
       // 04. Mise à jour du mot de passe dans la base de données :
       user.password = temporaryPassword;
-  
+
       // 05. Enregistrement de l'utilisateur mis à jour dans la base de données :
       await user.save();
 
       // 06. Envoi de l'email de réinitialisation du mot de passe :
       const sendResetPassword = temporaryPassword;
-  
+
       res.status(200).json({ message: "Mot de passe réinitialisé avec succès", sendResetPassword });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Erreur serveur" });
     }
-  },  
+  },
 
-// MyAccount : 
-getMyProfile : async (req, res) => {
-  try {
-    const userId = req.userData.userId; 
+  // MyAccount : 
+  // Consulter son profil :
+  getMyProfile: async (req, res) => {
+    try {
+      const userId = req.userData.userId;
 
-    const user = await User.findById(userId);
+      const user = await User.findById(userId);
 
-    if (!user) {
-      return res.status(401).json({ message: "Utilisateur non trouvé" });
+      const responseData = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        age: user.age,
+        pseudo: user.pseudo,
+        email: user.email,
+        securityQuestion: user.securityQuestion,
+        securityAnswer: user.securityAnswer,
+      }
+
+      if (!user) {
+        return res.status(401).json({ message: "Utilisateur non trouvé" });
+
+      }
+      console.log(user)
+      res.status(200).json({ responseData });
+      return user;
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Erreur serveur" });
     }
+  },
 
-    res.status(200).json({ user });
-    return user;
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Erreur serveur" });
-  }
-},
+  // Modifier son profil : updatePassword
+  // updatePassword: async (req, res) => {
+  //   try {
+  //     const { oldPassword, newPassword, confirmNewPassword } = req.body;
 
-  
+  //     // Assurez-vous que l'utilisateur est authentifié (vérifiez le jeton)
+  //     const token = req.cookies.token;
+  //     if (!token) {
+  //       return res.status(401).json({ message: "Vous n'êtes pas authentifié" });
+  //     }
+
+  //     // Récupérez l'utilisateur depuis la base de données en utilisant l'ID stocké dans le jeton
+  //     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  //     if (!decodedToken) {
+  //       return res.status(401).json({ message: "Vous n'êtes pas authentifié" });
+  //     }
+
+  //     const user = await User.findById(decodedToken.userId);
+  //     if (!user) {
+  //       return res.status(401).json({ message: "Utilisateur non trouvé" });
+  //     }
+
+  //     // Vérifiez que l'ancien mot de passe correspond au mot de passe actuel de l'utilisateur
+  //     const isMatch = await user.comparePassword(oldPassword);
+  //     if (!isMatch) {
+  //       return res.status(401).json({ message: 'L\'ancien mot de passe est incorrect' });
+  //     }
+
+  //     // Vérifiez que le nouveau mot de passe et la confirmation correspondent
+  //     if (newPassword !== confirmNewPassword) {
+  //       return res.status(400).json({ message: 'Les nouveaux mots de passe ne correspondent pas' });
+  //     }
+
+  //     // Mettez à jour le mot de passe de l'utilisateur dans la base de données en utilisant updateOne
+  //     await User.updateOne({ _id: user._id }, { $set: { password: newPassword } });
+
+  //     res.status(200).json({ message: 'Mot de passe mis à jour avec succès' });
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).json({ message: 'Erreur serveur' });
+  //   }
+  // },
+
+
 };
 
 module.exports = authController;
