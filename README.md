@@ -81,13 +81,7 @@ L'API sera accessible à l'adresse `http://localhost:4000`.
 
 - **Suppression d'un utilisateur :** Envoyez une requête DELETE à `/api/admin/users/:id` pour supprimer un utilisateur (nécessite d'être administrateur).
 
-<<<<<<< HEAD
-**Auteur :** Malik Marine Gaëtan  
-**Version :** 1.0.0  
-**Dernière Mise à Jour :** [le 28/08/2023]
-=======
 - **Bannissement d'un utilisateur :** Envoyez une requête PUT à `/api/admin/users/ban/:id` pour bannir un utilisateur (nécessite d'être administrateur).
->>>>>>> devCookie
 
 ### Exercices
 
@@ -118,6 +112,7 @@ Pour toute question ou demande d'assistance, vous pouvez contacter les auteurs d
 ## Licence
 
 Ce projet est sous licence [ISC](LICENSE).
+
 
 ```
 
