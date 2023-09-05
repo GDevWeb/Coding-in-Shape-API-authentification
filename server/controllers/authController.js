@@ -310,6 +310,8 @@ const authController = {
       res.status(500).json({ message: "Erreur serveur" });
     }
   },
+
+  // 09. Modifier son profil  : updatePseudo :
 };
 
 module.exports = authController;
