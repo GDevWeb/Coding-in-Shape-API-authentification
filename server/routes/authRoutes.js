@@ -10,7 +10,7 @@ router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 
 // 03. Route pour se déconnecter :
-// router.get('/logout', authController.logout); 
+router.get('/logout', authController.logout); 
 
 // 04. Récupération du mot de passe : 
 router.post('/resetPassword', authController.resetPasswordSimplified);
@@ -24,3 +24,10 @@ module.exports = router;
 
 //06. Route pour mettre à jour le mot de passe :
 router.post('/updatePassword', checkAuth, authController.updatePassword);
+
+// 07.Route pour mettre à jour le mail : 
+router.post('/updateEmail', checkAuth, authController.updateEmail);
+
+// 08. Route pour mettre à jour la question de sécurité et la réponse de sécurité :
+// router.post('/updateSecurity', checkAuth, authController.updateSecurity);
+
