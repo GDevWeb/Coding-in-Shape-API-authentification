@@ -311,7 +311,7 @@ const authController = {
     }
   },
 
-  // 09. Modifier son profil  : updatePseudo :
+  //09. Modifier son profil  : updatePseudo :
 };
 
 module.exports = authController;
