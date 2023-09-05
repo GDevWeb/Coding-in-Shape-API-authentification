@@ -8,10 +8,15 @@ dotenv.config();
 
 const app = express();
 
+const corsOptions = {
+  origin: "http://localhost:5173",
+  credentials : true,
+}
+
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
