@@ -4,7 +4,7 @@ Voici une version mise à jour du README en tenant compte des informations fourn
 # Projet Coding in Shape API - Authentification
 
 ## Version: 2.5.0
-## Auteurs: Marine, Gaëtan
+## Auteurs: Malik, Marine, Gaëtan
 
 Ce projet est une API d'authentification pour l'application Coding in Shape. Il permet la gestion des utilisateurs, des exercices, et des administrateurs.
 
@@ -106,7 +106,7 @@ Le middleware `checkAuth` est utilisé pour protéger certaines routes et s'assu
 ## Contact
 
 Pour toute question ou demande d'assistance, vous pouvez contacter les auteurs du projet :
-- Malik : [marine@example.com](mailto:marine@example.com)
+- Malik : [malik@example.com](mailto:marine@example.com)
 - Marine : [marine@example.com](mailto:marine@example.com)
 - Gaëtan : [gaetan](mailto:gaetan.dammaretz.dev@gmail.com)
 
