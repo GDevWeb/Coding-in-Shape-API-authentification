@@ -4,7 +4,7 @@ const adminUserController = {
     // 01. Méthode pour créer un utilisateur :
     createUser: async (req, res) => {
         try {
-            const { firstName, lastName, age, pseudo, email, password, securityQuestions, securityAnswer, isAdmin, isBan } = req.body;
+            const { firstName, lastName, age, pseudo, email, password, securityQuestion, securityAnswer, isAdmin, isBan } = req.body;
             const newUser = new User({
 
                 firstName,
@@ -13,7 +13,7 @@ const adminUserController = {
                 pseudo,
                 email,
                 password,
-                securityQuestions,
+                securityQuestion,
                 securityAnswer,
                 isAdmin,
                 isBan
@@ -135,25 +135,66 @@ const adminUserController = {
         }
     },
 
-    // // 07. Méthode pour débannir un utilisateur : 
-    // unBanUSer : async (req, res) => {
-    //     try{
-    //         const userID = req.params.id;
+    // 07. Méthode pour débannir un utilisateur : 
+    unBanUser : async (req, res) => {
+        try{
+            const userID = req.params.id;
 
-    //         const user = await User.findByIdAndUpdate(
-    //             userID,
-    //             {isBan: false},
-    //             {new: true});
+            const user = await User.findByIdAndUpdate(
+                userID,
+                {isBan: false},
+                {new: true});
 
-    //             if(!user) {
-    //                 return res.status(404).json({message: "Utilisateur non trouvé"});
-    //             }
-    //             res.status(200).json({message: "Utilisateur débanni avec succès"});
-    //     }catch (error) {
-    //         console.log(error);
-    //         res.status(500).json({message: "Erreur serveur - Erreur lors du débannissement de l'utilisateur"});
-    //     }
-    // }
+                if(!user) {
+                    return res.status(404).json({message: "Utilisateur non trouvé"});
+                }
+                res.status(200).json({message: "Utilisateur débanni avec succès"});
+        }catch (error) {
+            console.log(error);
+            res.status(500).json({message: "Erreur serveur - Erreur lors du débannissement de l'utilisateur"});
+        }
+    },
+
+    // 08. Méthode pour passer un utilisateur en admin : 
+    userToAdmin : async (req, res) => {
+        try {
+            const userID = req.params.id;
+
+            const user = await User.findByIdAndUpdate(
+                userID,
+                {isAdmin: true},
+                {new: true});
+
+                if(!user) {
+                    return res.status(404).json({message: "Utilisateur non trouvé"});
+                }
+                res.status(200).json({message: "Utilisateur promu administrateur avec succès"});
+        }catch (error) {
+            console.log(error);
+            res.status(500).json({message: "Erreur serveur - Erreur lors de la promotion de l'utilisateur en administrateur"});
+        }
+    },
+
+    // 09. Méthode pour retirer les droits admin à un utilisateur :
+    adminToUser : async (req, res) => {
+        try {
+            const userID = req.params.id;
+
+            const user = await User.findByIdAndUpdate(
+                userID,
+                {isAdmin: false},
+                {new: true});
+
+                if(!user) {
+                    return res.status(404).json({message: "Utilisateur non trouvé"});
+                }
+                res.status(200).json({message: "Utilisateur rétrogradé avec succès"});
+        }catch (error) {
+            console.log(error);
+            res.status(500).json({message: "Erreur serveur - Erreur lors de la rétrogradation de l'utilisateur"});
+        }
+    }
+        
 };
 
 module.exports = adminUserController;

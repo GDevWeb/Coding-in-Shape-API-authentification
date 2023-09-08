@@ -1,4 +1,4 @@
-Voici un fichier `readme.md` basé sur les informations que vous avez fournies :
+Voici une version mise à jour du README en tenant compte des informations fournies :
 
 ```markdown
 # Projet Coding in Shape API - Authentification
