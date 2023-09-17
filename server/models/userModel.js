@@ -58,7 +58,7 @@ const userSchema = new mongoose.Schema({
   isBan: {
     type: Boolean,
     default: false,
-  },
+  }, 
 });
 
 // Middleware :

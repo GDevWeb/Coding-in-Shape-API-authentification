@@ -64,7 +64,7 @@ const adminUserController = {
     updateUser: async (req, res) => {
         try {
             const userID = req.params.id;
-            const { firstName, lastName, age, pseudo, email, password, securityQuestions, isAdmin, isBan } = req.body;
+            const { firstName, lastName, age, pseudo, email, password, securityQuestion, securityAnswer, isAdmin, isBan } = req.body;
             const updatedUser = await User.findByIdAndUpdate
                 (
                     userID,
@@ -75,7 +75,7 @@ const adminUserController = {
                         pseudo,
                         email,
                         password,
-                        securityQuestions,
+                        securityQuestion,
                         securityAnswer,
                         isAdmin,
                         isBan

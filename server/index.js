@@ -36,7 +36,7 @@ mongoose
   .then(() => {
     console.log('Connexion à la base de données Coding In Shape - authentification établie');
     // Démarrage du serveur après la connexion à la base de données
-    app.listen(process.env.PORT || 4000, () => {
+    app.listen(process.env.PORT, () => {
       console.log(`Serveur d'authentification en cours d'exécution sur le port ${process.env.PORT}`);
     });
   })
