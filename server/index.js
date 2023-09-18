@@ -28,8 +28,7 @@ app.use('/api/exercises', exerciseRoutes); // Exemple de base URL pour les route
 app.use('/api/admin', adminUserRoutes); // Exemple de base URL pour les routes des administrateurs
 
 // Connexion à la base de données MongoDB
-mongoose
-  .connect(process.env.DB_URI, {
+mongoose.connect(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
