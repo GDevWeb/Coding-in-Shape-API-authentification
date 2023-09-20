@@ -27,4 +27,3 @@ router.put('/users/unadmin/:id', checkAuth, adminUserController.adminToUser);
 
 module.exports = router;
 
-//test
