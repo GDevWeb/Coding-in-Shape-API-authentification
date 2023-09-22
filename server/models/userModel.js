@@ -2,7 +2,14 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 // 01. Création du schéma de données pour les utilisateurs :
+
 const userSchema = new mongoose.Schema({
+
+  sex: {
+    type : String,
+    enum : ["homme", "femme"],
+    required : true,
+  },
   firstName: {
     type: String,
     required: true,
@@ -19,6 +26,18 @@ const userSchema = new mongoose.Schema({
     type: Number,
     required: true,
     unique: false,
+  },
+
+  avatar: {
+    type : String,
+    required : false,
+    validate: {
+      validator: function (value) {
+        const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+        return urlPattern.test(value);
+      },
+      message: "L'URL de l'avatar n'est pas valide",
+    },
   },
 
   pseudo: {

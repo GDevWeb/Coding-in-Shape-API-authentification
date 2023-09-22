@@ -9,9 +9,11 @@ const authController = {
   signup: async (req, res) => {
     try {
       const {
+        sex,
         firstName,
         lastName,
         age,
+        avatar,
         pseudo,
         email,
         password,
@@ -20,9 +22,11 @@ const authController = {
         isAdmin,
       } = req.body;
       const newUser = new User({
+        sex,
         firstName,
         lastName,
         age,
+        avatar,
         pseudo,
         email,
         password,
@@ -185,13 +189,17 @@ const authController = {
       const user = await User.findById(userId);
 
       const userData = {
+        sex: user.sex,
         firstName: user.firstName,
         lastName: user.lastName,
         age: user.age,
+        avatar: user.avatar,
         pseudo: user.pseudo,
         email: user.email,
         securityQuestion: user.securityQuestion,
         securityAnswer: user.securityAnswer,
+        isAdmin: user.isAdmin,
+        isBan : user.isBan,
       };
 
       if (!user) {
