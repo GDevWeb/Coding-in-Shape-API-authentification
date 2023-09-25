@@ -189,6 +189,7 @@ const authController = {
       const user = await User.findById(userId);
 
       const userData = {
+        id: user.id,
         sex: user.sex,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -319,7 +320,6 @@ const authController = {
     }
   },
 
-  //09. Modifier son profil  : updatePseudo :
 };
 
 module.exports = authController;
