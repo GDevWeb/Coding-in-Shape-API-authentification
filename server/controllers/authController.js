@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
 const sendWelcomeEmail = require("../utils/emailSender");
-const { token } = require("morgan");
 
 const authController = {
   // 01. Méthode pour s'inscrire:
@@ -20,6 +19,8 @@ const authController = {
         securityQuestion,
         securityAnswer,
         isAdmin,
+        createdAt,
+        updatedAt,
       } = req.body;
       const newUser = new User({
         sex,
@@ -33,6 +34,8 @@ const authController = {
         securityQuestion,
         securityAnswer,
         isAdmin,
+        createdAt,
+        updatedAt,
       });
 
       await newUser.save();
@@ -200,7 +203,9 @@ const authController = {
         securityQuestion: user.securityQuestion,
         securityAnswer: user.securityAnswer,
         isAdmin: user.isAdmin,
-        isBan : user.isBan,
+        isBan: user.isBan,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
       };
 
       if (!user) {
@@ -263,7 +268,8 @@ const authController = {
       //Mise à jour du MDP hashed dans la base de données :
       await User.updateOne(
         { _id: user._id },
-        { $set: { password: hashedPassword } }
+        { $set: { password: hashedPassword } },
+        { updated: Date.now() }
       );
 
       res.status(200).json({ message: "Mot de passe mis à jour avec succès" });
@@ -319,7 +325,6 @@ const authController = {
       res.status(500).json({ message: "Erreur serveur" });
     }
   },
-
 };
 
 module.exports = authController;
