@@ -90,6 +90,7 @@ const authController = {
           expiresIn: "24h",
         }
       );
+<<<<<<< HEAD
       res.cookie("token", token, {
         httpOnly: true,
         maxAge: 24 * 3600 * 1000,
@@ -97,6 +98,12 @@ const authController = {
       }); //soit 24h
 
       res.status(200).json({ token });
+=======
+        // Ajout du cookie "aux pépites de chocolat" :
+      res.cookie("token", token, { httpOnly: true, maxAge: 24 * 3600 * 1000 }); // 24h
+
+      res.status(200).json({ token, message: "Connexion réussie" });
+>>>>>>> 989ad7d9ea67c2ab4714c2fe01201edef41adf4d
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Erreur serveur" });
