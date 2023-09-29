@@ -4,19 +4,22 @@ const adminUserController = {
     // 01. Méthode pour créer un utilisateur :
     createUser: async (req, res) => {
         try {
-            const { firstName, lastName, age, pseudo, email, password, securityQuestion, securityAnswer, isAdmin, isBan } = req.body;
+            const { sex, firstName, lastName, age, avatar, pseudo, email, password, securityQuestion, securityAnswer, isAdmin, isBan, createdAt, updatedAt } = req.body;
             const newUser = new User({
-
+                sex,
                 firstName,
                 lastName,
                 age,
+                avatar,
                 pseudo,
                 email,
                 password,
                 securityQuestion,
                 securityAnswer,
                 isAdmin,
-                isBan
+                isBan,
+                createdAt,
+                updatedAt,        
             });
             await newUser.save();
             res.status(201).json({ user: newUser, message: "Utilisateur créé avec succès" });

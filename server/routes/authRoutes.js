@@ -20,8 +20,4 @@ router.post('/updatePassword', checkAuth, authController.updatePassword);
 // 08.Route pour mettre à jour le mail : 
 router.post('/updateEmail', checkAuth, authController.updateEmail);
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 989ad7d9ea67c2ab4714c2fe01201edef41adf4d
 module.exports = router;
