@@ -94,7 +94,7 @@ const authController = {
         httpOnly: true,
         maxAge: 24 * 3600 * 1000,
         path: "/",
-      }); //soit 24h
+      }); 
 
       res.status(200).json({ token });
     } catch (error) {
