@@ -122,3 +122,6 @@ userSchema.methods.comparePassword = async function (candidatePassword, next) {
 const userModel = mongoose.model("User", userSchema);
 
 module.exports = userModel;
+
+
+//merge deVCookies le 05/10/2023
