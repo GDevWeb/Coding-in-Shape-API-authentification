@@ -15,9 +15,11 @@ router.post('/resetPassword', authController.resetPasswordSimplified);
 router.get('/checkAuth', checkAuth, authController.checkAuth);
 // 06. Route pour obtenir les informations de compte :
 router.get('/myProfile', checkAuth, authController.getMyProfile);
-//07. Route pour mettre à jour le mot de passe :
+//07. Route pour mettre à jour le profil utilisateur :
+router.put('updateMyProfile', checkAuth, authController.updatePyProfile);
+//08. Route pour mettre à jour le mot de passe :
 router.post('/updatePassword', checkAuth, authController.updatePassword);
-// 08.Route pour mettre à jour le mail : 
+// 09.Route pour mettre à jour le mail : 
 router.post('/updateEmail', checkAuth, authController.updateEmail);
 
 module.exports = router;

@@ -220,7 +220,70 @@ const authController = {
     }
   },
 
-  //07. Modifier son profil : updatePassword
+  //07. Modifier son profil :
+  updatePyProfile: async (req, res) => {
+    try {
+      const userID = req.params.id;
+      const {
+        firstName,
+        lastName,
+        age,
+        pseudo,
+        email,
+        securityQuestion,
+        securityAnswer,
+        isAdmin,
+        isBan,
+        password, 
+      } = req.body;
+
+      // Vérifiez si un nouveau mot de passe a été fourni
+      if (password) {
+        // Hash du nouveau mot de passe
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Mettez à jour le mot de passe haché
+        await User.findByIdAndUpdate(userID, { password: hashedPassword });
+      }
+
+      // Mise à jour des autres données de l'utilisateur
+      const updatedUser = await User.findByIdAndUpdate(
+        userID,
+        {
+          firstName,
+          lastName,
+          age,
+          pseudo,
+          email,
+          securityQuestion,
+          securityAnswer,
+          isAdmin,
+          isBan,
+        },
+        { new: true }
+      );
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: "Utilisateur non trouvé" });
+      }
+
+      res.status(201).json({ message: "Utilisateur mis à jour avec succès" });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({
+          message:
+            "Erreur serveur - Erreur lors de la mise à jour de l'utilisateur",
+        });
+    }
+  },
+
+
+  
+
+  //08. Modifier son profil : updatePassword
   updatePassword: async (req, res) => {
     try {
       const { oldPassword, newPassword, confirmNewPassword, currentPassword } =
@@ -279,7 +342,7 @@ const authController = {
     }
   },
 
-  //08. Modifier son profil  : updateEmail :
+  //09. Modifier son profil  : updateEmail :
   updateEmail: async (req, res) => {
     try {
       const { currentEmail, newEmail, confirmEmail } = req.body;
