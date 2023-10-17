@@ -30,14 +30,7 @@ const userSchema = new mongoose.Schema({
 
   avatar: {
     type : String,
-    required : false,
-    validate: {
-      validator: function (value) {
-        const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
-        return urlPattern.test(value);
-      },
-      message: "L'URL de l'avatar n'est pas valide",
-    },
+    default: '',
   },
 
   pseudo: {

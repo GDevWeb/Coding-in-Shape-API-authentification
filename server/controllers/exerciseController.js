@@ -191,5 +191,3 @@ const exerciseController = {
 };
 
 module.exports = exerciseController;
-
-// updated 29/09/2023 11:00 by Gaëtan

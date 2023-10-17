@@ -3,7 +3,7 @@ const cookieParser = require('cookie-parser');
 
 const authMiddleWare = (req, res, next) => {
     try {
-        const token = req.cookies.token; // Récupérez le token depuis les cookies
+        const token = req.cookies.token; 
 
         if (!token) {
             return res.status(401).json({ message: "Vous devez vous connecter pour accéder à cette ressource" });
@@ -22,7 +22,7 @@ const authMiddleWare = (req, res, next) => {
             console.log("Vous êtes administrateur prov BDD auth");
         }
 
-        // Si la vérification d'isAdmin réussit, appeler next()
+        // Si la vérification d'isAdmin réussit, appele next()
         next();
     } catch (error) {
         console.log(error);

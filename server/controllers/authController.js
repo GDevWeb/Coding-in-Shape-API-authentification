@@ -221,7 +221,7 @@ const authController = {
   },
 
   //07. Modifier son profil :
-  updatePyProfile: async (req, res) => {
+  updateMyProfile: async (req, res) => {
     try {
       const userID = req.params.id;
       const {
@@ -236,6 +236,9 @@ const authController = {
         isBan,
         password, 
       } = req.body;
+
+      const avatar = req.file ? req.file.filename : ''; // Récupére le nom du fichier téléchargé
+
 
       // Vérifiez si un nouveau mot de passe a été fourni
       if (password) {
@@ -260,6 +263,7 @@ const authController = {
           securityAnswer,
           isAdmin,
           isBan,
+          avatar,
         },
         { new: true }
       );

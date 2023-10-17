@@ -15,7 +15,7 @@ const checkAuth = (req, res, next) => {
 
             const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-            // Ajouter les données du token décodé à la requête :
+            // Ajoute les données du token décodé à la requête :
             req.userData = decodedToken;
             next();
         });
