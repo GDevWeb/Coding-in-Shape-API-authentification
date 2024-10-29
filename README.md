@@ -107,7 +107,6 @@ Le middleware `checkAuth` est utilisé pour protéger certaines routes et s'assu
 
 Pour toute question ou demande d'assistance, vous pouvez contacter les auteurs du projet :
 
-- Olivier : [olivier](mailto:olivier.thollas.dev@gmail.com)
 - Gaëtan : [gaetan](mailto:gaetan.dammaretz.dev@gmail.com)
 
 ## Licence
